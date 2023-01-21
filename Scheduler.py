@@ -11,6 +11,7 @@ from queue import PriorityQueue
 from SchedulingInfo import SchedulingInfo
 from Process import Process
 
+
 class Scheduler:
 
     def __init__(self, algorithm, processes: list[Process]):
@@ -29,17 +30,23 @@ class Scheduler:
                 process.io_time,
                 process.cpu_burst_time_2)
 
+        # 3-Tuples of (process, burst start, burst end)
+        self.intervals: list[tuple[Process, int, int]] = []
+
     def schedule_cpu(self):
         first_process_arrival_time, _ = self.ready_queue.queue[0]
         if self.time < first_process_arrival_time:
             self.time = first_process_arrival_time
-        
+
         next_process, service_time = self.algorithm.choose_next(
-            self.scheduling_info, self.ready_queue)
+            self.scheduling_info, self.ready_queue
+        )
 
-        print(f"P{next_process.process_id}: ({self.time}, {self.time + service_time})")
+        self.intervals.append(
+            (next_process, self.time, self.time + service_time)
+        )
 
-        self.advance_time(service_time)
+        self.time += service_time
 
         scheduling_info = self.scheduling_info[next_process]
 
@@ -64,11 +71,6 @@ class Scheduler:
         io_time = self.scheduling_info[process].io_remaining_time
         self.ready_queue.put((self.time + io_time, process))
 
-    def advance_time(self, service_time: int):
-        self.time += service_time
-
-    def update_ready_queue(self):
-        for process in self.processes:
-                if self.last_time < process.arrival_time <= self.time:
-                    self.ready_queue.put((process.arrival_time, process))
-            
+    def print_intervals(self):
+        for process, burst_start, burst_end in self.intervals:
+            print(f"P{process.process_id}: ({burst_start}, {burst_end})")

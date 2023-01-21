@@ -16,6 +16,7 @@ def main():
     processes = CSVReader(CSV_FILE).get_processes()
     scheduler = Scheduler(FCFS(), processes)
     scheduler.schedule()
+    scheduler.print_intervals()
 
 if __name__ == "__main__":
     main()
