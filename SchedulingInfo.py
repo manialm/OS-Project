@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+
+@dataclass
 class SchedulingInfo:
     arrival_time: int
     cpu_remaining_time_1: int

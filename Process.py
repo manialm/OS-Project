@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
 class Process:
     process_id: int
     arrival_time: int
