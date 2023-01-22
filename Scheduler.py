@@ -31,14 +31,17 @@ class Scheduler:
         # 3-Tuples of (process, burst start, burst end)
         self.intervals: list[tuple[Process, int, int]] = []
 
-    def schedule_cpu(self):        
+    def schedule_cpu(self):
         first_process_arrival_time, _ = min(self.ready_list)
         if self.time < first_process_arrival_time:
             self.time = first_process_arrival_time
 
-        next_process, service_time = self.algorithm.choose_next(
-            self.scheduling_info, self.ready_list
+        ready_now = [(arrival_time, process) for arrival_time, process in self.ready_list
+                     if arrival_time <= self.time]
+        arrival_time, next_process, service_time = self.algorithm.choose_next(
+            self.scheduling_info, ready_now
         )
+        self.ready_list.remove((arrival_time, next_process))
 
         self.intervals.append(
             (next_process, self.time, self.time + service_time)
@@ -72,4 +75,3 @@ class Scheduler:
     def print_intervals(self):
         for process, burst_start, burst_end in self.intervals:
             print(f"P{process.process_id}: ({burst_start}, {burst_end})")
-
