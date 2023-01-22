@@ -41,7 +41,11 @@ class Scheduler:
         arrival_time, next_process, service_time = self.algorithm.choose_next(
             self.scheduling_info, ready_now
         )
-        self.ready_list.remove((arrival_time, next_process))
+
+        # If the process's CPU burst is done, remove it from the ready list
+        if (self.scheduling_info[next_process].cpu_remaining_time_1 == 0 or
+                self.scheduling_info[next_process].cpu_remaining_time_2 == 0):
+            self.ready_list.remove((arrival_time, next_process))
 
         self.intervals.append(
             (next_process, self.time, self.time + service_time)
@@ -75,3 +79,16 @@ class Scheduler:
     def print_intervals(self):
         for process, burst_start, burst_end in self.intervals:
             print(f"P{process.process_id}: ({burst_start}, {burst_end})")
+
+    def merge_intervals(self):
+        first, *rest = self.intervals
+        merged_intervals = [first]
+
+        for process, burst_start, burst_end in rest:
+            last_process, last_burst_start, last_burst_end = merged_intervals[-1]
+            if last_process == process and last_burst_end == burst_start:
+                merged_intervals[-1] = (process, last_burst_start, burst_end)
+            else:
+                merged_intervals.append((process, burst_start, burst_end))
+
+        self.intervals = merged_intervals

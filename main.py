@@ -1,6 +1,7 @@
 from Scheduler import Scheduler
 from algorithms.FCFS import FCFS
 from algorithms.SJF import SJF
+from algorithms.SRT import SRT
 from Process import Process
 from CSVReader import CSVReader
 
@@ -18,6 +19,13 @@ def test_sjf(processes: list[Process]):
     scheduler.schedule()
     scheduler.print_intervals()
 
+def test_srt(processes: list[Process]):
+    print('\nSRT:')
+    scheduler = Scheduler(SRT(), processes)
+    scheduler.schedule()
+    scheduler.merge_intervals()
+    scheduler.print_intervals()
+
 def main():
     # processes = [
     #     Process(1, 3, 6, 0, 0, 0),
@@ -27,8 +35,9 @@ def main():
     # ]
 
     processes = CSVReader(CSV_FILE).get_processes()
-    # test_fcfs(processes)
+    test_fcfs(processes)
     test_sjf(processes)
+    test_srt(processes)
 
 if __name__ == "__main__":
     main()
