@@ -2,8 +2,6 @@ from algorithms.Algorithm import Algorithm
 from Process import Process
 from SchedulingInfo import SchedulingInfo
 from queue import PriorityQueue
-from heapq import heapify
-
 
 class SJF(Algorithm):
 
