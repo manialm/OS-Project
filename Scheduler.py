@@ -1,5 +1,3 @@
-# NOTE: `algorithm` has a `select()` method
-# NOTE: assuming first job has arrival time of 0
 """
 self.scheduling_info = {
     Process1: SchedulingInfo(cpu_remaining_time_1, io_left_time, cpu_remaining_time_2),
@@ -33,11 +31,12 @@ class Scheduler:
         # 3-Tuples of (process, burst start, burst end)
         self.intervals: list[tuple[Process, int, int]] = []
 
-    def schedule_cpu(self):
+    def schedule_cpu(self):        
         first_process_arrival_time, _ = self.ready_queue.queue[0]
         if self.time < first_process_arrival_time:
             self.time = first_process_arrival_time
 
+        self.print_queue()
         next_process, service_time = self.algorithm.choose_next(
             self.scheduling_info, self.ready_queue
         )
@@ -70,7 +69,13 @@ class Scheduler:
     def schedule_io(self, process):
         io_time = self.scheduling_info[process].io_remaining_time
         self.ready_queue.put((self.time + io_time, process))
+        if process.process_id == 1:
+            print(self.time + io_time)
 
     def print_intervals(self):
         for process, burst_start, burst_end in self.intervals:
             print(f"P{process.process_id}: ({burst_start}, {burst_end})")
+
+    def print_queue(self):
+        print([(pri, p.process_id) for pri, p in self.ready_queue.queue])
+

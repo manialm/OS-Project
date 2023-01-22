@@ -6,8 +6,8 @@ from queue import PriorityQueue
 class FCFS(Algorithm):
 
     def choose_next(self, scheduling_info: dict[Process, SchedulingInfo],
-    ready_queue: PriorityQueue) -> tuple[Process, int]:
-    
+    ready_queue: PriorityQueue[Process]) -> tuple[Process, int]:
+
         _, next_process = ready_queue.get()
 
         service_time = scheduling_info[next_process].cpu_remaining_time_1

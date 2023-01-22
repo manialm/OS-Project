@@ -1,9 +1,22 @@
 from Scheduler import Scheduler
 from algorithms.FCFS import FCFS
+from algorithms.SJF import SJF
 from Process import Process
 from CSVReader import CSVReader
 
 CSV_FILE = 'csv/input_file.csv'
+
+def test_fcfs(processes: list[Process]):
+    print('\nFCFS:')
+    scheduler = Scheduler(FCFS(), processes)
+    scheduler.schedule()
+    scheduler.print_intervals()
+
+def test_sjf(processes: list[Process]):
+    print('\nSJF:')
+    scheduler = Scheduler(SJF(), processes)
+    scheduler.schedule()
+    scheduler.print_intervals()
 
 def main():
     # processes = [
@@ -14,9 +27,8 @@ def main():
     # ]
 
     processes = CSVReader(CSV_FILE).get_processes()
-    scheduler = Scheduler(FCFS(), processes)
-    scheduler.schedule()
-    scheduler.print_intervals()
+    # test_fcfs(processes)
+    test_sjf(processes)
 
 if __name__ == "__main__":
     main()
