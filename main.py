@@ -36,7 +36,7 @@ def test_rr(processes: list[Process]):
     scheduler = RRScheduler(time_quantum, processes)
     scheduler.schedule()
     scheduler.print_intervals()
-    # scheduler.print_analysis()
+    scheduler.print_analysis()
 
 def main():
     # processes = [

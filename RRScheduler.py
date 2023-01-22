@@ -82,3 +82,84 @@ class RRScheduler:
     def print_intervals(self):
         for process, burst_start, burst_end in self.intervals:
             print(f"P{process.process_id}: ({burst_start}, {burst_end})")
+
+    def get_service_time(self, process: Process):
+        return process.cpu_burst_time_1 + process.cpu_burst_time_2
+
+    def get_start_time(self, process: Process):
+        return process.arrival_time
+
+    def get_end_time(self, process: Process):
+        _, _, end_time = max(
+            (process_, burst_start, burst_end)
+            for (process_, burst_start, burst_end) in self.intervals
+            if process_ == process
+        )
+
+        return end_time
+
+    def get_waiting_time(self, process: Process):
+        return self.get_end_time(process) - self.get_start_time(process)
+
+    def get_turnaround_time(self, process: Process):
+        return self.get_waiting_time(process) - self.get_service_time(process)
+
+    def get_response_time(self, process: Process):
+        return self.first_burst_end[process] - process.arrival_time
+
+    def average_waiting_time(self):
+        return sum(
+            self.get_waiting_time(process)
+            for process in self.processes
+        ) / len(self.processes)
+
+    def average_turnaround_time(self):
+        return sum(
+            self.get_turnaround_time(process)
+            for process in self.processes
+        ) / len(self.processes)
+
+    def average_response_time(self):
+        return sum(
+            self.get_response_time(process)
+            for process in self.processes
+        ) / len(self.processes)
+
+    def total_time(self):
+        # When the last burst ends
+        return self.intervals[-1][-1]
+
+    def total_cpu_time(self):
+        return sum(
+            self.get_service_time(process)
+            for process in self.processes
+        )
+
+    def cpu_utilization(self):
+        return self.total_cpu_time() / self.total_time()
+
+    def thoroughput(self):
+        return len(self.processes) / self.total_time()
+
+    def idle_time(self):
+        return self.total_time() - self.cpu_time()
+
+    def print_analysis(self):
+        print()
+        for process in self.processes:
+            print(f'P{process.process_id}:')
+            print(
+                f'Start and End time: ({self.get_start_time(process)}, {self.get_end_time(process)})')
+            print(f'Turnaround Time: {self.get_turnaround_time(process)}')
+            print(f'Response Time: {self.get_response_time(process)}')
+            print(f'Waiting Time: {self.get_waiting_time(process)}')
+
+            print()
+        print()
+
+        print(f'Total time: {self.total_time()}')
+        print(f'Average turnaround time: {self.average_turnaround_time()}')
+        print(f'Average response time: {self.average_response_time()}')
+        print(f'Average waiting time: {self.average_waiting_time()}')
+        print(f'CPU Utilization: {100*self.cpu_utilization():.2f}%')
+        print(f'Thoroughput: {self.thoroughput():.2f}')
