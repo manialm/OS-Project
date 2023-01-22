@@ -63,7 +63,7 @@ class Scheduler:
 
         else:
             # Second CPU burst
-            self.scheduling_info[next_process].cpu_remaining_time_2 -= service_time
+            scheduling_info.cpu_remaining_time_2 -= service_time
 
         # If the process's CPU burst is done, remove it from the ready list
         if self.burst_finished(next_process):
