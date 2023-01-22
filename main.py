@@ -27,8 +27,8 @@ def main():
     # ]
 
     processes = CSVReader(CSV_FILE).get_processes()
-    # test_fcfs(processes)
-    test_sjf(processes)
+    test_fcfs(processes)
+    # test_sjf(processes)
 
 if __name__ == "__main__":
     main()
