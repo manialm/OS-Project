@@ -2,6 +2,7 @@ from Scheduler import Scheduler
 from algorithms.FCFS import FCFS
 from algorithms.SJF import SJF
 from algorithms.SRT import SRT
+from RRScheduler import RRScheduler
 from Process import Process
 from CSVReader import CSVReader
 
@@ -29,6 +30,14 @@ def test_srt(processes: list[Process]):
     scheduler.print_intervals()
     scheduler.print_analysis()
 
+def test_rr(processes: list[Process]):
+    print('\nRR:')
+    time_quantum = 3
+    scheduler = RRScheduler(time_quantum, processes)
+    scheduler.schedule()
+    scheduler.print_intervals()
+    scheduler.print_analysis()
+
 def main():
     # processes = [
     #     Process(1, 3, 6, 0, 0, 0),
@@ -41,6 +50,7 @@ def main():
     test_fcfs(processes)
     test_sjf(processes)
     test_srt(processes)
+    test_rr(processes)
 
 if __name__ == "__main__":
     main()

@@ -5,7 +5,7 @@ self.scheduling_info = {
     ...
 }
 """
-from queue import PriorityQueue
+from queue import SimpleQueue
 from SchedulingInfo import SchedulingInfo
 from Process import Process
 from algorithms.Algorithm import Algorithm
