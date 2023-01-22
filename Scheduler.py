@@ -18,10 +18,10 @@ class Scheduler:
         self.algorithm = algorithm
 
         self.processes = processes
-        self.ready_queue: PriorityQueue[Process] = PriorityQueue()
+        self.ready_list: PriorityQueue[Process] = PriorityQueue()
         self.scheduling_info = {}
         for process in processes:
-            self.ready_queue.put((process.arrival_time, process))
+            self.ready_list.append((process.arrival_time, process))
 
             self.scheduling_info[process] = SchedulingInfo(
                 process.cpu_burst_time_1,
@@ -38,7 +38,7 @@ class Scheduler:
 
         self.print_queue()
         next_process, service_time = self.algorithm.choose_next(
-            self.scheduling_info, self.ready_queue
+            self.scheduling_info, self.ready_list
         )
 
         self.intervals.append(
@@ -63,12 +63,12 @@ class Scheduler:
             self.scheduling_info[next_process].cpu_remaining_time_2 -= service_time
 
     def schedule(self):
-        while self.ready_queue.qsize() > 0:
+        while self.ready_list.qsize() > 0:
             self.schedule_cpu()
 
     def schedule_io(self, process):
         io_time = self.scheduling_info[process].io_remaining_time
-        self.ready_queue.put((self.time + io_time, process))
+        self.ready_list.append((self.time + io_time, process))
         if process.process_id == 1:
             print(self.time + io_time)
 
@@ -77,5 +77,5 @@ class Scheduler:
             print(f"P{process.process_id}: ({burst_start}, {burst_end})")
 
     def print_queue(self):
-        print([(pri, p.process_id) for pri, p in self.ready_queue.queue])
+        print([(pri, p.process_id) for pri, p in self.ready_list.queue])
 
