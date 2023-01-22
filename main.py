@@ -12,12 +12,14 @@ def test_fcfs(processes: list[Process]):
     scheduler = Scheduler(FCFS(), processes)
     scheduler.schedule()
     scheduler.print_intervals()
+    scheduler.print_analysis()
 
 def test_sjf(processes: list[Process]):
     print('\nSJF:')
     scheduler = Scheduler(SJF(), processes)
     scheduler.schedule()
     scheduler.print_intervals()
+    scheduler.print_analysis()
 
 def test_srt(processes: list[Process]):
     print('\nSRT:')
@@ -25,6 +27,7 @@ def test_srt(processes: list[Process]):
     scheduler.schedule()
     scheduler.merge_intervals()
     scheduler.print_intervals()
+    scheduler.print_analysis()
 
 def main():
     # processes = [
