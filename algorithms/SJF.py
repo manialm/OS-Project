@@ -8,7 +8,10 @@ from heapq import heapify
 class SJF(Algorithm):
 
     def choose_next(self, scheduling_info: dict[Process, SchedulingInfo],
-    ready_list: list[tuple[int, Process]]) -> tuple[Process, int]:
+    ready_list: list[tuple[int, Process]], time: int) -> tuple[Process, int]:
+
+        ready_list = [(arrival_time, process) for arrival_time, process in ready_list
+                     if arrival_time <= time]
 
         # ready_list elements are tuples of (arrival_time, process)
         # so the minimum element has the earliest arrival time

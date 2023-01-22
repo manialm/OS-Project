@@ -8,11 +8,12 @@ self.scheduling_info = {
 from queue import PriorityQueue
 from SchedulingInfo import SchedulingInfo
 from Process import Process
+from algorithms.Algorithm import Algorithm
 
 
 class Scheduler:
 
-    def __init__(self, algorithm, processes: list[Process]):
+    def __init__(self, algorithm: Algorithm, processes: list[Process]):
         self.last_time = -1
         self.time = 0
         self.algorithm = algorithm
@@ -36,16 +37,9 @@ class Scheduler:
         if self.time < first_process_arrival_time:
             self.time = first_process_arrival_time
 
-        ready_now = [(arrival_time, process) for arrival_time, process in self.ready_list
-                     if arrival_time <= self.time]
         arrival_time, next_process, service_time = self.algorithm.choose_next(
-            self.scheduling_info, ready_now
+            self.scheduling_info, self.ready_list, self.time
         )
-
-        # If the process's CPU burst is done, remove it from the ready list
-        if (self.scheduling_info[next_process].cpu_remaining_time_1 == 0 or
-                self.scheduling_info[next_process].cpu_remaining_time_2 == 0):
-            self.ready_list.remove((arrival_time, next_process))
 
         self.intervals.append(
             (next_process, self.time, self.time + service_time)
@@ -67,6 +61,10 @@ class Scheduler:
         else:
             # Second CPU burst
             self.scheduling_info[next_process].cpu_remaining_time_2 -= service_time
+
+        # If the process's CPU burst is done, remove it from the ready list
+        if self.burst_finished(next_process):
+            self.ready_list.remove((arrival_time, next_process))
 
     def schedule(self):
         while len(self.ready_list) > 0:
@@ -92,3 +90,16 @@ class Scheduler:
                 merged_intervals.append((process, burst_start, burst_end))
 
         self.intervals = merged_intervals
+
+    def burst_finished(self, process: Process):
+        first_burst_finished = (self.scheduling_info[process].cpu_remaining_time_1 == 0 and
+                                self.scheduling_info[process].cpu_remaining_time_2 == process.cpu_burst_time_2)
+        
+        second_burst_finished = (self.scheduling_info[process].cpu_remaining_time_1 == 0 and
+                                 self.scheduling_info[process].cpu_remaining_time_2 == 0)
+        
+        return first_burst_finished or second_burst_finished
+
+    def print_list(self):
+        print([(arrival_time, process.process_id)
+              for arrival_time, process in self.ready_list])
