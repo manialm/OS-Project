@@ -3,6 +3,7 @@ from algorithms.FCFS import FCFS
 from algorithms.SJF import SJF
 from algorithms.SRT import SRT
 from schedulers.RRScheduler import RRScheduler
+from schedulers.MLFQScheduler import MLFQScheduler
 from process.Process import Process
 from CSVReader import CSVReader
 
@@ -40,6 +41,15 @@ def test_rr(processes: list[Process]):
     scheduler.schedule()
     scheduler.print_intervals()
     scheduler.print_analysis()
+    scheduler.save_chart()
+
+def test_mlfq(processes: list[Process]):
+    print('\nMLFQ:')
+    scheduler = MLFQScheduler(processes)
+    scheduler.schedule()
+    scheduler.print_intervals()
+    scheduler.print_analysis()
+    scheduler.save_chart()
 
 def main():
     # processes = [
@@ -54,6 +64,7 @@ def main():
     test_sjf(processes)
     test_srt(processes)
     test_rr(processes)
+    test_mlfq(processes)
 
 if __name__ == "__main__":
     main()

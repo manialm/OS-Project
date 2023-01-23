@@ -30,3 +30,6 @@ class Scheduler(SchedulerBase):
                 merged_intervals.append((process, burst_start, burst_end))
 
         self.intervals = merged_intervals
+
+    def get_algorithm_name(self):
+        return self.algorithm.name

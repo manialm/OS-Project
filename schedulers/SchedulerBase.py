@@ -173,7 +173,7 @@ class SchedulerBase:
     def save_chart(self):
         import matplotlib.pyplot as plt
 
-        print(f"Gantt chart for {self.algorithm.name} saved!")
+        print(f"Gantt chart for {self.get_algorithm_name()} saved!")
         # Declaring a figure "gnt"
         fig, gnt = plt.subplots()
 
@@ -228,4 +228,4 @@ class SchedulerBase:
         # Process 5
         gnt.broken_barh(myData5, (70, 9),facecolors =('tab:pink'))        
 
-        plt.savefig(f"gantt/gantt_{self.algorithm.name}.png")
+        plt.savefig(f"gantt/gantt_{self.get_algorithm_name()}.png")

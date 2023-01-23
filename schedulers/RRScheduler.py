@@ -66,3 +66,6 @@ class RRScheduler(SchedulerBase):
     def schedule_io(self, process: Process):
         io_time = self.scheduling_info[process].io_remaining_time
         self.queue.put((self.time + io_time, process))
+
+    def get_algorithm_name(self):
+        return 'RR'
