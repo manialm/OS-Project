@@ -5,6 +5,9 @@ from queue import PriorityQueue
 
 class SJF(Algorithm):
 
+    def __init__(self):
+        self.name = 'SJF'
+
     def choose_next(self, scheduling_info: dict[Process, SchedulingInfo],
     ready_list: list[tuple[int, Process]], time: int) -> tuple[Process, int]:
 

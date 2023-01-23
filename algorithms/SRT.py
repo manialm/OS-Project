@@ -5,6 +5,9 @@ import heapq
 
 class SRT(Algorithm):
 
+    def __init__(self):
+        self.name = 'SRT'
+
     def choose_next(self, scheduling_info: dict[Process, SchedulingInfo],
     ready_list: list[tuple[int, Process]], time: int) -> tuple[Process, int]:
 

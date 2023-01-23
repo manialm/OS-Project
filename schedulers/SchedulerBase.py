@@ -169,3 +169,63 @@ class SchedulerBase:
         print(f'Average waiting time: {self.average_waiting_time()}')
         print(f'CPU Utilization: {100*self.cpu_utilization():.2f}%')
         print(f'Thoroughput: {self.thoroughput():.2f}')
+
+    def save_chart(self):
+        import matplotlib.pyplot as plt
+
+        print(f"Gantt chart for {self.algorithm.name} saved!")
+        # Declaring a figure "gnt"
+        fig, gnt = plt.subplots()
+
+        # Setting Y-axis limits
+        gnt.set_ylim(0, 80)
+
+        # Setting X-axis limits
+        gnt.set_xlim(0, 60, 1)
+
+        # Setting labels for x-axis and y-axis
+        gnt.set_xlabel('Time')
+        gnt.set_ylabel('Processes')
+
+        # Setting ticks on y-axis
+        gnt.set_yticks([10, 25, 40, 55, 70])
+        # Labelling tickes of y-axis
+        gnt.set_yticklabels(['P1', 'P2', 'P3', 'P4', 'P5'])
+
+        # Setting graph attribute
+        gnt.grid(True)
+        
+        # Get each process cpu burst tuples
+        myData1 = []
+        myData2 = []
+        myData3 = []
+        myData4 = []
+        myData5 = []
+        for process, burst_start, burst_end in self.intervals:
+            if process.process_id == 1:
+                myData1.append((burst_start, burst_end - burst_start))
+            elif process.process_id == 2:
+                myData2.append((burst_start, burst_end - burst_start))
+            elif process.process_id == 3:
+                myData3.append((burst_start, burst_end - burst_start))
+            elif process.process_id == 4:
+                myData4.append((burst_start, burst_end - burst_start))
+            elif process.process_id == 5:
+                myData5.append((burst_start, burst_end - burst_start))
+                
+        # Process 1
+        gnt.broken_barh(myData1, (10, 9), facecolors ='tab:blue')
+        
+        # Process 2
+        gnt.broken_barh(myData2, (25, 9), facecolors =('tab:red'))
+        
+        # Process 3
+        gnt.broken_barh(myData3, (40, 9), facecolors =('tab:orange'))
+        
+        # Process 4
+        gnt.broken_barh(myData4, (55, 9),facecolors =('tab:green'))
+                
+        # Process 5
+        gnt.broken_barh(myData5, (70, 9),facecolors =('tab:pink'))        
+
+        plt.savefig(f"gantt/gantt_{self.algorithm.name}.png")
