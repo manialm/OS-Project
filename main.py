@@ -1,9 +1,9 @@
-from Scheduler import Scheduler
+from schedulers.Scheduler import Scheduler
 from algorithms.FCFS import FCFS
 from algorithms.SJF import SJF
 from algorithms.SRT import SRT
-from RRScheduler import RRScheduler
-from Process import Process
+from schedulers.RRScheduler import RRScheduler
+from process.Process import Process
 from CSVReader import CSVReader
 
 CSV_FILE = 'csv/input_file.csv'

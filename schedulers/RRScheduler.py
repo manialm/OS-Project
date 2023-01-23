@@ -1,9 +1,9 @@
 from collections import defaultdict
 from queue import PriorityQueue
 
-from Process import Process
-from SchedulerBase import SchedulerBase
-from SchedulingInfo import SchedulingInfo
+from process.Process import Process
+from schedulers.SchedulerBase import SchedulerBase
+from process.SchedulingInfo import SchedulingInfo
 
 
 class RRScheduler(SchedulerBase):

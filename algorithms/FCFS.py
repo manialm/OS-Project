@@ -1,6 +1,6 @@
 from algorithms.Algorithm import Algorithm
-from Process import Process
-from SchedulingInfo import SchedulingInfo
+from process.Process import Process
+from process.SchedulingInfo import SchedulingInfo
 from queue import PriorityQueue
 
 class FCFS(Algorithm):

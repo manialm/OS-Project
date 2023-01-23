@@ -8,9 +8,9 @@ self.scheduling_info = {
 from queue import SimpleQueue
 
 from algorithms.Algorithm import Algorithm
-from Process import Process
-from SchedulerBase import SchedulerBase
-from SchedulingInfo import SchedulingInfo
+from process.Process import Process
+from schedulers.SchedulerBase import SchedulerBase
+from process.SchedulingInfo import SchedulingInfo
 
 
 class Scheduler(SchedulerBase):

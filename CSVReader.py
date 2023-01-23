@@ -1,6 +1,6 @@
 import csv
 
-from Process import Process
+from process.Process import Process
 
 class CSVReader:
 
